@@ -2,7 +2,6 @@ from collections import defaultdict, Counter
 from numpy import cumsum, sum, searchsorted
 from numpy.random import rand
 from random import randint
-import urllib2
 
 class MarkovChain(object):
     # Initiate our MarkovChain
@@ -63,7 +62,6 @@ class MarkovChain(object):
     def _weighted_pick(weights):
         return searchsorted(cumsum(weights), rand()*sum(weights))
 
-# book = urllib2.urlopen('https://www.gutenberg.org/files/521/521-0.txt') # Robinson Crusoe
 order = 15
 
 in_text = ''
@@ -76,9 +74,11 @@ in_text += sherlock.read()
 
 mc = MarkovChain(order=order)
 mc.train(in_text)
-# mc.train(sherlock.read())
-# mc.train(robinson_crusoe.read())
 
+# Get a random part of the text to start reading from
 pos = randint(0, len(in_text) - order + 1)
+
+# Get some text to start with
 start = in_text[pos:pos+order]
+
 print(mc.generate(start, 10000))
